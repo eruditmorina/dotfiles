@@ -118,60 +118,16 @@ require("lazy").setup {
     {
       'neovim/nvim-lspconfig',
       config = function()
-        -- Pyright
-        vim.lsp.config('pyright', {
-          settings = {
-            pyright = {
-              disableOrganizeImports = true, -- Using Ruff's import organizer
-            },
-            python = {
-              analysis = {
-                ignore = { '*' }, -- Ignore all files for analysis to exclusively use Ruff for linting
-              },
-              pythonPath = ".venv/bin/python",
-            },
-          },
-        })
-        vim.lsp.enable('pyright')
+        -- ty
+        if vim.fn.executable("ty") == 1 then
+          vim.lsp.enable('ty')
+        end
         -- Ruff
         if vim.fn.executable("ruff") == 1 then
           vim.lsp.enable('ruff')
-          vim.api.nvim_create_autocmd("LspAttach", {
-            group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
-            callback = function(args)
-              local client = vim.lsp.get_client_by_id(args.data.client_id)
-              if client == nil then
-                return
-              end
-              if client.name == 'ruff' then
-                -- Disable hover in favor of Pyright
-                client.server_capabilities.hoverProvider = false
-              end
-            end,
-            desc = 'LSP: Disable hover capability from Ruff',
-          })
         end
         -- Rust
         vim.lsp.enable('rust_analyzer')
-      end
-    },
-    -- linter
-    {
-      'mfussenegger/nvim-lint',
-      config = function()
-        local python_linters = {}
-        if vim.fn.executable("mypy") == 1 then
-          table.insert(python_linters, "mypy")
-        end
-        require("lint").linters_by_ft = {
-          python = python_linters
-        }
-        vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
-          callback = function()
-            -- try_lint without arguments runs the linters defined in `linters_by_ft` for the current filetype
-            require("lint").try_lint()
-          end
-        })
       end
     },
     -- auto formatter
@@ -251,6 +207,7 @@ require("lazy").setup {
     -- syntax highlighting
     {
       "nvim-treesitter/nvim-treesitter",
+      lazy = false,
       build = ":TSUpdate",
       config = function ()
         local configs = require("nvim-treesitter.configs")
