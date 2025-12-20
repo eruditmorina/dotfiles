@@ -17,7 +17,8 @@
     },
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "python.languageServer": "None",
+  "ty.disableLanguageServices": true,
+  "python.analysis.autoImportCompletions": true,
   "[yaml]": {
     "editor.formatOnSave": false
   },
