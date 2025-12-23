@@ -2,8 +2,9 @@
   "editor.tabSize": 2,
   "editor.rulers": [120],
   "editor.minimap.enabled": false,
-  "telemetry.telemetryLevel": "off",
+  "editor.lightbulb.enabled": "off",
   "editor.formatOnSave": true,
+  "telemetry.telemetryLevel": "off",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -17,11 +18,11 @@
     },
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "ty.disableLanguageServices": true,
-  "python.analysis.autoImportCompletions": true,
   "[yaml]": {
     "editor.formatOnSave": false
   },
+  "ty.disableLanguageServices": true,
+  "python.analysis.autoImportCompletions": true,
   "gitlens.telemetry.enabled": false,
   "vim.useSystemClipboard": true
 }
