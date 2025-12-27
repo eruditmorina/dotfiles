@@ -92,6 +92,24 @@ require("lazy").setup {
         vim.cmd("colorscheme gruvbox")
       end
     },
+    -- {
+    --   'folke/tokyonight.nvim',
+    --   lazy = false,
+    --   priority = 1000,
+    --   config = function()
+    --     require("tokyonight").setup({
+    --       transparent = true,
+    --       styles = {
+    --         comments = { italic = false },
+    --         keywords = { italic = false },
+    --       },
+    --       on_colors = function(colors)
+    --         colors.comment = colors.orange
+    --       end
+    --     })
+    --     vim.cmd[[colorscheme tokyonight]]
+    --   end
+    -- },
     -- fuzzy finder
     {
       'nvim-telescope/telescope.nvim',
@@ -104,6 +122,9 @@ require("lazy").setup {
               bottom_pane = { height = 20, prompt_position = "bottom" }
             },
             layout_strategy = "bottom_pane",
+          },
+          pickers = {
+            find_files = { hidden = true }
           }
         }
         local builtin = require 'telescope.builtin'
@@ -241,8 +262,7 @@ require("lazy").setup {
       lazy = false,
       build = ":TSUpdate",
       config = function ()
-        local configs = require("nvim-treesitter.configs")
-        configs.setup {
+        require("nvim-treesitter").setup {
           ensure_installed = { "javascript", "markdown", "python", "rust", "typescript", "vim", "vimdoc" },
           sync_install = false,
           auto_install = false,
