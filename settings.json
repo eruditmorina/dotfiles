@@ -1,0 +1,26 @@
+{
+  "editor.tabSize": 2,
+  "editor.rulers": [120],
+  "editor.minimap.enabled": false,
+  "editor.lightbulb.enabled": "off",
+  "editor.formatOnSave": true,
+  "telemetry.telemetryLevel": "off",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[yaml]": {
+    "editor.formatOnSave": false
+  },
+  "python.analysis.autoImportCompletions": true,
+  "python.languageServer": "Pylance",
+  "ty.disableLanguageServices": true,
+  "gitlens.telemetry.enabled": false,
+  "vim.useSystemClipboard": true
+}
