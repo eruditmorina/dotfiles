@@ -22,5 +22,6 @@
   "python.languageServer": "Pylance",
   "ty.disableLanguageServices": true,
   "gitlens.telemetry.enabled": false,
-  "vim.useSystemClipboard": true
+  "vim.useSystemClipboard": true,
+  "workbench.colorTheme": "Dark Modern"
 }
