@@ -137,7 +137,19 @@ require("lazy").setup {
     -- LSP Configs
     {
       'neovim/nvim-lspconfig',
+      dependencies = {
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+      },
       config = function()
+        require("mason").setup()
+        require("mason-lspconfig").setup {
+          ensure_installed = {
+            "pyright",
+            "ruff",
+            "vtsls",
+          }
+        }
         -- Pyright
         vim.lsp.config('pyright', {
           settings = {
@@ -161,25 +173,31 @@ require("lazy").setup {
           vim.lsp.enable('ty')
         end
         -- Ruff
-        if vim.fn.executable("ruff") == 1 then
-          vim.lsp.enable('ruff')
-          vim.api.nvim_create_autocmd("LspAttach", {
-            group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
-            callback = function(args)
-              local client = vim.lsp.get_client_by_id(args.data.client_id)
-              if client == nil then
-                return
-              end
-              if client.name == 'ruff' then
-                -- Disable hover in favor of Pyright
-                client.server_capabilities.hoverProvider = false
-              end
-            end,
-            desc = 'LSP: Disable hover capability from Ruff',
-          })
-        end
+        vim.lsp.enable('ruff')
+        vim.api.nvim_create_autocmd("LspAttach", {
+          group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
+          callback = function(args)
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            if client == nil then
+              return
+            end
+            if client.name == 'ruff' then
+              -- Disable hover in favor of Pyright
+              client.server_capabilities.hoverProvider = false
+            end
+          end,
+          desc = 'LSP: Disable hover capability from Ruff',
+        })
         -- Rust
         vim.lsp.enable('rust_analyzer')
+        -- vtsls
+        vim.lsp.config('vtsls', {
+          settings = {
+            complete_function_calls = true,
+            vtsls = { autoUseWorkspaceTsdk = true },
+          }
+        })
+        vim.lsp.enable('vtsls')
       end
     },
     -- auto formatter
@@ -188,7 +206,9 @@ require("lazy").setup {
       config = function()
         require("conform").setup {
           formatters_by_ft = {
+            javascript = { "prettier" },
             python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+            typescript = { "prettier" },
           },
           format_on_save = { lsp_format = "fallback" }
         }
@@ -264,7 +284,7 @@ require("lazy").setup {
       build = ":TSUpdate",
       config = function ()
         require("nvim-treesitter.configs").setup {
-          ensure_installed = { "markdown", "python", "rust", "vim", "vimdoc" },
+          ensure_installed = { "javascript", "markdown", "python", "rust", "typescript", "vim", "vimdoc" },
           auto_install = false,
           highlight = { enable = true },
         }
