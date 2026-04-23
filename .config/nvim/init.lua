@@ -279,15 +279,15 @@ require("lazy").setup {
     -- syntax highlighting
     {
       "nvim-treesitter/nvim-treesitter",
-      branch = 'master',
       lazy = false,
       build = ":TSUpdate",
       config = function ()
-        require("nvim-treesitter.configs").setup {
-          ensure_installed = { "javascript", "markdown", "python", "rust", "typescript", "vim", "vimdoc" },
-          auto_install = false,
-          highlight = { enable = true },
-        }
+        local parsers = { "javascript", "markdown", "python", "rust", "typescript", "vim", "vimdoc" }
+        require("nvim-treesitter").install(parsers)  -- requires tree-sitter-cli installed
+        vim.api.nvim_create_autocmd('FileType', {
+          pattern = parsers,
+          callback = function() vim.treesitter.start() end,
+        })
       end
     },
     -- git stuff
