@@ -3,8 +3,12 @@
   "editor.rulers": [120],
   "editor.minimap.enabled": false,
   "editor.lightbulb.enabled": "off",
+  "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.formatOnSave": true,
   "telemetry.telemetryLevel": "off",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
