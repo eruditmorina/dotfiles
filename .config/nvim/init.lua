@@ -216,65 +216,30 @@ require("lazy").setup {
     },
     -- LSP based code completion
     {
-      "hrsh7th/nvim-cmp",
-      -- load cmp on InsertEnter
-      event = "InsertEnter",
-      -- dependencies will only be loaded when cmp loads
-      dependencies = {
-        'neovim/nvim-lspconfig',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-path',
-      },
+      'saghen/blink.cmp',
+      version = '1.*',
       config = function()
-        local cmp = require'cmp'
-        cmp.setup({
-          snippet = {
-            -- REQUIRED - must specify a snippet engine
-            expand = function(args)
-              vim.fn["vsnip#anonymous"](args.body)
-            end,
+        require("blink.cmp").setup {
+          keymap = { preset = 'enter' },
+          completion = {
+            accept = { auto_brackets = { enabled = false } },
+            documentation = { auto_show = true },
+            list = {
+              selection = {
+                preselect = true,
+                auto_insert = false,
+              },
+            }
           },
-          mapping = cmp.mapping.preset.insert({
-            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.abort(),
-            -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-            ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          }),
-          sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-          }, {
-            { name = 'buffer' },
-          }),
-          performance = { debounce = 0, throttle = 0 },
-          -- disable completion in comments
-          enabled = function()
-            if require"cmp.config.context".in_treesitter_capture("comment")==true or require"cmp.config.context".in_syntax_group("Comment") then
-              return false
-            else
-              return true
-            end
-          end,
-        })
-        -- enable completing paths in ':'
-        cmp.setup.cmdline(':', {
-          sources = cmp.config.sources({
-            { name = 'path' }
-          })
-        })
+          signature = { enabled = true },
+          sources = {
+            -- I only want lsp completions
+            default = { 'lsp' },
+          },
+          fuzzy = { implementation = 'prefer_rust_with_warning' },
+          cmdline = { enabled = false }
+  	    }
       end
-    },
-    -- inline function signature
-    {
-      "ray-x/lsp_signature.nvim",
-      event = "VeryLazy",
-      opts = {
-        doc_lines = 0,
-        handler_opts = { border = "none" },
-      },
-      config = function(_, opts) require'lsp_signature'.setup(opts) end
     },
     -- syntax highlighting
     {
