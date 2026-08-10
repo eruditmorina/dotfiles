@@ -27,5 +27,6 @@
   "ty.disableLanguageServices": true,
   "gitlens.telemetry.enabled": false,
   "vim.useSystemClipboard": true,
-  "workbench.colorTheme": "Dark Modern"
+  "workbench.colorTheme": "Dark Modern",
+  "chat.disableAIFeatures": true
 }
